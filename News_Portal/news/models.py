@@ -78,6 +78,11 @@ class Author(models.Model):
         self.rating = self.rating_post + self.rating_comments_of_users + self.rating_comments_of_author
         self.save()
 
+# class User():
+#     def __init__(self):
+#        return
+#     def another_method(self):
+#        return
 
-for i in list(Author.objects.all()):
-    i.update_rating()
+# for i in list(Author.objects.all()):
+#     i.update_rating()

@@ -1,0 +1,7 @@
+python manage.py shell
+
+from news.models import Author
+
+user=User.objects.create_user('user1', '1@google.com', '12345')
+
+User.objects.create('user1')
