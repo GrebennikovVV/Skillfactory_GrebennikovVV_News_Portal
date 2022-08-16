@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.utils import timezone
 
 
 class Category(models.Model):
@@ -30,7 +29,7 @@ class Post(models.Model):
     )
 
     category = models.ManyToManyField(Category, through='PostCategory')
-    tittle = models.CharField(max_length=50)
+    title = models.CharField(max_length=50)
     content = models.TextField()
     rating = models.IntegerField(default=0)
 
@@ -46,8 +45,6 @@ class Post(models.Model):
         prev_text = 126 if len(self.content)>126 else len(self.content)
         return self.content[:prev_text]+'...'
 
-    def __str__(self):
-        return self.title
 
 class PostCategory(models.Model):
     post = models.ForeignKey('Post', on_delete=models.CASCADE)
@@ -82,10 +79,9 @@ class Author(models.Model):
         self.save()
 
 # class User():
-#     def __init__(self):
-#        return
-#     def another_method(self):
-#        return
-
-# for i in list(Author.objects.all()):
-#     i.update_rating()
+#      def __init__(self):
+#         return
+#      def another_method(self):
+#         return
+#  for i in list(Author.objects.all()):
+#      i.update_rating()

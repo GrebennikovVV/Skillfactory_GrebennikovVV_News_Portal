@@ -7,9 +7,11 @@ from news.models import Post
 
 user=User.objects.create_user('user1', '1@google.com', '12345')
 
-user = User.objects.create_user(username='user1', email='1@google.com', password='12345')
-user = User.objects.create_user(username='user2', email='2@google.com', password='56789')
-user.save()                                
+user1 = User.objects.create_user(username='user1', email='1@google.com', password='12345')
+user2 = User.objects.create_user(username='user2', email='2@google.com', password='56789')
+user3 = User.objects.create_user(username='user3', email='3@google.com', password='33333')
+user4 = User.objects.create_user(username='user4', email='4@google.com', password='44444')
+user1.save()                                
 
 author1 = Author.objects.create(user_key_id=1)
 author2 = Author.objects.create(user_key_id=2)
@@ -22,3 +24,12 @@ Category = Category.objects.create(category='bus')
 Category = Category.objects.create(category='sun')
 Category.save()
 
+Post1 = Post.objects.create(author=author1)
+Post2 = Post.objects.create(author = author2, choice_ar_nw = nw)
+Post.save()
+Post.objects.create(author=Author.objects.get(user=User.objects.get(username='user1')), type='NW', category = 'car', title="user1 news title", content="This is the text of a news block")
+
+
+Post.objects.create(author=author1, choice_ar_nw='NW', title="user1 news title", content="This is the text of a news block")
+
+Post.delete()
