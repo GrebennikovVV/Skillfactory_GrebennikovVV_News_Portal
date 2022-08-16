@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 
 class Category(models.Model):
@@ -45,6 +46,8 @@ class Post(models.Model):
         prev_text = 126 if len(self.content)>126 else len(self.content)
         return self.content[:prev_text]+'...'
 
+    def __str__(self):
+        return self.title
 
 class PostCategory(models.Model):
     post = models.ForeignKey('Post', on_delete=models.CASCADE)

@@ -1,7 +1,24 @@
 python manage.py shell
 
+from django.contrib.auth.models import User
 from news.models import Author
+from news.models import Category
+from news.models import Post
 
 user=User.objects.create_user('user1', '1@google.com', '12345')
 
-User.objects.create('user1')
+user = User.objects.create_user(username='user1', email='1@google.com', password='12345')
+user = User.objects.create_user(username='user2', email='2@google.com', password='56789')
+user.save()                                
+
+author1 = Author.objects.create(user_key_id=1)
+author2 = Author.objects.create(user_key_id=2)
+author1.save()                                
+
+Category = Category.objects.create(category='car')
+Category = Category.objects.create(category='book')
+Category = Category.objects.create(category='moon')
+Category = Category.objects.create(category='bus')
+Category = Category.objects.create(category='sun')
+Category.save()
+
