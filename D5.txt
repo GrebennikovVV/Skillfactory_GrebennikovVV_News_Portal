@@ -4,18 +4,21 @@ from django.contrib.auth.models import User
 from news.models import Author
 from news.models import Category
 from news.models import Post
-
-user=User.objects.create_user('user1', '1@google.com', '12345')
+from news.models import PostCategory
+from news.models import Comment
 
 user1 = User.objects.create_user(username='user1', email='1@google.com', password='12345')
 user2 = User.objects.create_user(username='user2', email='2@google.com', password='56789')
 user3 = User.objects.create_user(username='user3', email='3@google.com', password='33333')
-user4 = User.objects.create_user(username='user4', email='4@google.com', password='44444')
-user1.save()                                
+user.save()
 
-author1 = Author.objects.create(user_key_id=1)
-author2 = Author.objects.create(user_key_id=2)
-author1.save()                                
+user1 = User.objects.get(id=1)
+user2 = User.objects.get(id=2)
+user3 = User.objects.get(id=3)
+user4 = User.objects.get(id=4)
+
+Author.objects.create(user_key=user3)
+Author.objects.create(user_key=user4)
 
 Category = Category.objects.create(category='car')
 Category = Category.objects.create(category='book')
@@ -24,12 +27,41 @@ Category = Category.objects.create(category='bus')
 Category = Category.objects.create(category='sun')
 Category.save()
 
-Post1 = Post.objects.create(author=author1)
-Post2 = Post.objects.create(author = author2, choice_ar_nw = nw)
-Post.save()
-Post.objects.create(author=Author.objects.get(user=User.objects.get(username='user1')), type='NW', category = 'car', title="user1 news title", content="This is the text of a news block")
+Post.objects.create(author=Author.objects.get(user_key=3), choice_ar_nw='nw', title="user1's news title", content="This is the text of a news block")
+Post.objects.create(author=Author.objects.get(user_key=4), title="user2's article1 title", content="This is the text of a article1 block")
+Post.objects.create(author=Author.objects.get(user_key=3), title="user1's article2 title", content="This is the text of a article2 block")
 
+PostCategory.objects.create(post=Post.objects.get(id=6), category=Category.objects.get(id=1))
+PostCategory.objects.create(post=Post.objects.get(id=6), category=Category.objects.get(id=2))
+PostCategory.objects.create(post=Post.objects.get(id=7), category=Category.objects.get(id=3))
+PostCategory.objects.create(post=Post.objects.get(id=8), category=Category.objects.get(id=4))
+PostCategory.objects.all()
 
-Post.objects.create(author=author1, choice_ar_nw='NW', title="user1 news title", content="This is the text of a news block")
+Comment.objects.create(post=Post.objects.get(id=6), user=User.objects.get(id=3), context="This is the comment of a article1 block")
+Comment.objects.create(post=Post.objects.get(id=6), user=User.objects.get(id=4), context="This is the comment of a article1 block")
+Comment.objects.create(post=Post.objects.get(id=7), user=User.objects.get(id=3), context="This is the comment of a article2 block")
+Comment.objects.create(post=Post.objects.get(id=8), user=User.objects.get(id=4), context="This is the comment of a article2 block")
+Comment.objects.all()
 
-Post.delete()
+Comment1=Comment.objects.get(id=1)
+Comment.objects.get(id=2).dislike()
+Comment1.like()
+
+Post1=Post.objects.get(id=6)
+Post1.dislike()
+Post2=Post.objects.get(id=7)
+Post2.like()
+Post.objects.get(id=7).like()
+Post.objects.get(id=8).like()
+
+Post.objects.all()
+Author.objects.all()
+
+Author.objects.get(id=17).update_rating()
+Author.objects.get(id=18).update_rating()
+
+Author.objects.all().order_by('rating').values('user_key', 'rating')
+Author.objects.all().order_by('rating').values('user_key', 'rating').last()
+
+post_the_best=Post.objects.all().order_by('rating').values('time_creating', 'author', 'rating', 'title').last()
+
