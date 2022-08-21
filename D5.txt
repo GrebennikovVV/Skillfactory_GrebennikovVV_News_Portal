@@ -63,5 +63,5 @@ Author.objects.get(id=18).update_rating()
 Author.objects.all().order_by('rating').values('user_key', 'rating')
 Author.objects.all().order_by('rating').values('user_key', 'rating').last()
 
-post_the_best=Post.objects.all().order_by('rating').values('time_creating', 'author', 'rating', 'title').last()
-
+post_the_best=Post.objects.all().order_by('rating').values('id', 'time_creating', 'author', 'rating', 'title').last()
+Comment.objects.filter(post_id=7).values('datetime_comment', 'user', 'rating', 'context')
